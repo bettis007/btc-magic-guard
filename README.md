@@ -1,4 +1,4 @@
-# btc-magic-guard
+# BTC Magik Guard
 Uses iptables to block the thousands of spam peers targeting the btc and bch network right now - June 2025
 ---
 A spectral introduction, whispered in hushed tones:
