@@ -151,6 +151,7 @@ We’ve included an iptables baseline and Poe-style documentation under `docs/fi
 
 ```bash
 sudo bash scrolls/reset-firewall.sh
+```
 
 ## License & Wards
 
