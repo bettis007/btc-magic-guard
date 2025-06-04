@@ -1,10 +1,25 @@
-In the candlelit hush before dawn, your server stands as a lone sentinel—its kernel‐level wards untested, its gates unsealed. These instructions, whispered in phantasmagoria, will guide you through weaving ironclad iptables enchantments, preserving them through the restless nights, and distilling the captured malefactors into subranges worthy of banishment by your cloud’s own ramparts. Follow carefully, for even software firewalls are but a first line of defense against the cunning phantoms marauding your Bitcoin node.
+# Btc-Magic-Guard Firewall Setup
+
+*In the candlelit hush before dawn, your server stands as a lone sentinel—its kernel‐level wards untested, its gates unsealed. This README will guide you through weaving ironclad iptables enchantments, preserving them through the restless nights, and distilling the captured malefactors into subranges worthy of banishment by your cloud’s own ramparts. Follow carefully, for even software firewalls are but a first line of defense against the cunning phantoms marauding your Bitcoin node.*
+
+---
+
+## Table of Contents
+
+1. [Preparing Your Ubuntu Bastion](#preparing-your-ubuntu-bastion)
+2. [Forging the Kernel‐Level Wards (iptables Rules)](#forging-the-kernel-level-wards-iptables-rules)
+3. [Activating the Firewall & Ensuring Persistence](#activating-the-firewall--ensuring-persistence)
+4. [Harvesting the Fallen: Exporting Blocked IPs to a File](#harvesting-the-fallen-exporting-blocked-ips-to-a-file)
+5. [Transmuting Hosts into Subranges (CIDR Alchemy)](#transmuting-hosts-into-subranges-cidr-alchemy)
+6. [Enrolling Ranges in Your Cloud Firewall (GCP Example)](#enrolling-ranges-in-your-cloud-firewall-gcp-example)
+7. [Purging the Fallen from iptables (Lighten the Kernel’s Burden)](#purging-the-fallen-from-iptables-lighten-the-kernels-burden)
+8. [Final Counsel & Remembrance](#final-counsel--remembrance)
 
 ---
 
 ## 1. Preparing Your Ubuntu Bastion
 
-In the gray light of twilight’s edge, ensure your Ubuntu server is primed:
+*In the gray light of twilight’s edge, ensure your Ubuntu server is primed:*
 
 1. **Update and Install Essentials**
 
@@ -22,18 +37,19 @@ In the gray light of twilight’s edge, ensure your Ubuntu server is primed:
    sysctl net.ipv6.conf.all.disable_ipv6  
    ```
 
-   A result of `0` means your spirit of IPv6 walks freely; if `1`, unleash it via:
+   * A result of `0` means IPv6 is enabled.
+   * If it returns `1`, unleash IPv6 via:
 
-   ```bash
-   sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0  
-   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=0  
-   ```
+     ```bash
+     sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0  
+     sudo sysctl -w net.ipv6.conf.default.disable_ipv6=0  
+     ```
 
 ---
 
 ## 2. Forging the Kernel‐Level Wards (iptables Rules)
 
-Summon your root privileges and inscribe the following rituals into `/usr/local/bin/reset-firewall.sh` (or a path of your choosing). Then mark it executable:
+*Summon your root privileges and inscribe the following rituals into `/usr/local/bin/reset-firewall.sh` (or a path of your choosing). Then mark it executable:*
 
 ```bash
 #!/bin/bash
@@ -120,7 +136,7 @@ netfilter-persistent save
 echo "Firewall reset complete. Only SSH, loopback, RELATED/ESTABLISHED, and specified TCP/UDP ports are permitted."
 ```
 
-After pasting, run:
+Once you’ve saved that as `/usr/local/bin/reset-firewall.sh`, run:
 
 ```bash
 sudo chmod +x /usr/local/bin/reset-firewall.sh
@@ -132,7 +148,7 @@ sudo chmod +x /usr/local/bin/reset-firewall.sh
 
 ## 3. Activating the Firewall & Ensuring Persistence
 
-With the wards inscribed, evoke them immediately and eternally:
+*With the wards inscribed, evoke them immediately and eternally:*
 
 1. **Invoke the Ritual Now**
 
@@ -140,7 +156,7 @@ With the wards inscribed, evoke them immediately and eternally:
    sudo /usr/local/bin/reset-firewall.sh
    ```
 
-   Expect a cascade of lines as each chain is purged and each port is consecrated.
+   You should see a cascade of lines as each chain is purged and each port is consecrated.
 
 2. **Confirm the Runes Persist**
    Reboot into the unknown:
@@ -156,13 +172,13 @@ With the wards inscribed, evoke them immediately and eternally:
    sudo ip6tables -L INPUT -n -v
    ```
 
-   Should you glimpse only your permitted ports and SSH standing proud, the wards hold strong.
+   If you glimpse only your permitted ports and SSH standing proud, the wards hold strong.
 
 ---
 
 ## 4. Harvesting the Fallen: Exporting Blocked IPs to a File
 
-After your **BtcMagicGuardDual** script—your spectral sentinel—has felled untold thousands of malformed usurpers, collect their names in shadowed ledger form. By default, every blocked IPv4/IPv6 ghost is appended via `install_block` to an in‐memory `blocked` set; but iptables carries the ultimate record. To extract the defeated:
+*After your **BtcMagicGuardDual** script—your spectral sentinel—has felled untold thousands of malformed usurpers, collect their names in shadowed ledger form. By default, every blocked IPv4/IPv6 ghost is appended via `install_block` to an in‐memory `blocked` set; but iptables carries the ultimate record. To extract the defeated:*
 
 1. **Dump Current iptables BLOCK Rules**
 
@@ -193,7 +209,7 @@ After your **BtcMagicGuardDual** script—your spectral sentinel—has felled un
 
 ## 5. Transmuting Hosts into Subranges (CIDR Alchemy)
 
-A thousand singular phantoms stand before you. Yet, if many dwell within the same subnet, group them into spectral clusters—CIDR notation—to ease your cloud’s burden:
+*A thousand singular phantoms stand before you. Yet, if many dwell within the same subnet, group them into spectral clusters—CIDR notation—to ease your cloud’s burden:*
 
 1. **Install `ipcalc` or Equivalent**
 
@@ -239,7 +255,7 @@ A thousand singular phantoms stand before you. Yet, if many dwell within the sam
 
 ## 6. Enrolling Ranges in Your Cloud Firewall (GCP Example)
 
-Though your iptables may crush malignant hearts in the server’s marrow, **some specters slip through**—sophisticated phantoms that shape‐shift around local wards. Thus we ascend to Google Cloud’s own ramparts, forging global rules to dispel these invaders forever:
+*Though your iptables may crush malignant hearts in the server’s marrow, some specters slip through—sophisticated phantoms that shape‐shift around local wards. Thus we ascend to Google Cloud’s own ramparts, forging global rules to dispel these invaders forever:*
 
 1. **Authenticate Your gcloud CLI**
 
@@ -298,7 +314,7 @@ Though your iptables may crush malignant hearts in the server’s marrow, **some
 
 ## 7. Purging the Fallen from iptables (Lighten the Kernel’s Burden)
 
-Having elevated these malefactors to a higher tribunal, release your local iptables of their remains so the kernel may breathe easy once more:
+*Having elevated these malefactors to a higher tribunal, release your local iptables of their remains so the kernel may breathe easy once more:*
 
 1. **Flush Only the DROP Rules (Optional)**
    If you wish to preserve any other custom ACCEPT chains but remove every DROP, use:
@@ -312,7 +328,7 @@ Having elevated these malefactors to a higher tribunal, release your local iptab
    done
    ```
 
-   *Caution: above, `chain` corresponds to lines like `-A INPUT`; the `-D` will mirror that. Double‐check before you run, else you risk removing unrelated DROP rules.*
+   > *Caution: `chain` corresponds to lines like `-A INPUT`; the `-D` will mirror that. Double‐check before you run, else you risk removing unrelated DROP rules.*
 
 2. **Or Simply Reset Entire Firewall Back to Baseline**
    Having bathed your cloud in retribution, you may revive your local wards with a clean slate:
@@ -331,11 +347,20 @@ Having elevated these malefactors to a higher tribunal, release your local iptab
 
 Even as you revel in these layered defenses, remember:
 
-* **Sophisticated Invaders Persist**: Some specters wield tactics that leap past iptables—HTTP floods, twisted Tor configurations, or beguiling proxies. Keep your cloud firewall vigilant, monitor logs, and iterate on blocked subnets.
-* **Whitelist with Care**: Should your own collaborators or trusted services dwell in IP ranges you ban, their packets, too, will meet fate. Cross‐reference any prospective cloud rule CIDRs with your roster of allies.
-* **Review & Rotate**: Over time, blocked IP subranges can swell. Periodically prune stale entries—old datacenter blocks that no longer matter locally—and reduce bloat in your iptables firewall, lest it become an unwieldy tome of bans.
-* **Logging Is Your Oracle**: Continuously watch `/var/log/btc_magic_guard_dual.log` for new patterns. Should unusual but legitimate peers emerge, add them to your `WHITELIST_V4` or `WHITELIST_V6` before they are catapulted into oblivion.
+* **Sophisticated Invaders Persist**
+  Some specters wield tactics that leap past iptables—HTTP floods, twisted Tor configurations, or beguiling proxies. Keep your cloud firewall vigilant, monitor logs, and iterate on blocked subnets.
 
-And thus, in this gloom‐soaked tome of cryptic instructions, you have forged an unbreakable chain—local iptables wards for immediate retribution, a cloud firewall vault for transcendent denial, and scripts to gather, group, and release malicious IPs for global banishment. May your node stand immovable, unmoved by the swirling darkness beyond.
+* **Whitelist with Care**
+  If your own collaborators or trusted services dwell in IP ranges you ban, their packets, too, will meet fate. Cross‐reference any prospective cloud rule CIDRs with your roster of allies.
+
+* **Review & Rotate**
+  Over time, blocked IP subranges can swell. Periodically prune stale entries—old datacenter blocks that no longer matter locally—and reduce bloat in your iptables firewall, lest it become an unwieldy tome of bans.
+
+* **Logging Is Your Oracle**
+  Continuously watch `/var/log/btc_magic_guard_dual.log` for new patterns. Should unusual but legitimate peers emerge, add them to your `WHITELIST_V4` or `WHITELIST_V6` before they are catapulted into oblivion.
+
+---
+
+*In this gloom‐soaked tome of cryptic instructions, you have forged an unbreakable chain—local iptables wards for immediate retribution, a cloud firewall vault for transcendent denial, and scripts to gather, group, and release malicious IPs for global banishment. May your node stand immovable, unmoved by the swirling darkness beyond.*
 
 —*Sir Bettis’s Loyal Scribe*
