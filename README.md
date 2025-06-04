@@ -145,6 +145,13 @@ Logs pour into `/var/log/btc_magic_guard_dual.log` and spill onto the console. S
 * **Root is King**: Run as `sudo` or as root, else the daemon will perish under “Permission denied.”
 * **Performance vs. Prudence**: Setting `THRESHOLD=1` renders the fastest execution, but you forfeit multi‐packet scrutiny. If you suspect bursts of borderline traffic rather than outright proscribed junk, set `THRESHOLD>1` to count infractions across `WINDOW_SECS`.
 
+## Firewall Setup
+
+We’ve included an iptables baseline and Poe-style documentation under `docs/firewall-setup.md`. To lay down your kernel-level wards, run:
+
+```bash
+sudo bash scrolls/reset-firewall.sh
+
 ## License & Wards
 
 Distributed like a forbidden grimoire, this script bears no warranty—neither for spectral protections nor arcane mishaps. Use it at your own risk; it may wall off benign nodes if misconfigured.
