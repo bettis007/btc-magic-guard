@@ -30,8 +30,7 @@ Choose your allegiances, for “magic” waits for no one.
 * **Scapy**: Install via:
 
   ```bash
-  sudo apt update && sudo apt install python3 python3‐pip  
-  pip3 install scapy
+  sudo apt update && sudo apt install python3 python3‐pip python3-scapy
   ```
 * **iptables & ip6tables**: Already installed in most Linux distributions; indispensable for forging DROP rules.
 
